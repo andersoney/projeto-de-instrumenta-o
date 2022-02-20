@@ -2,10 +2,13 @@
   <div id="app">
     <main>
       <div class="chart">
-        <TheWelcome />
+        <TheWelcome
+          url="http://localhost:8081/temperature"
+          type="temperature"
+        />
       </div>
       <div class="chart">
-        <TheWelcome />
+        <TheWelcome url="http://localhost:8081/pressure" type="pressure" />
       </div>
     </main>
   </div>

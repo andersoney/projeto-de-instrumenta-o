@@ -1,6 +1,8 @@
 <script>
 import { Line } from "vue-chartjs";
+import axios from "axios";
 export default {
+  props: ["url", "type"],
   name: "LineChart",
   extends: Line,
   data: () => ({
@@ -24,18 +26,25 @@ export default {
     number: 0,
   }),
   mounted() {
-    this.renderChart(this.chartdata, this.options);
+    this.getData();
     setInterval(() => {
-      let vetor = [];
-      this.chartdata.datasets[0].data.push(Math.random() * 90 + 10);
-      // this.chartdata.datasets[0].data.push(this.number);
-      this.chartdata.labels.push(this.number);
-      if (this.chartdata.datasets[0].data.length > 100) {
-        this.chartdata.datasets[0].data.splice();
-      }
-      this.renderChart(this.chartdata, this.options);
-      this.number++;
+      this.getData();
     }, 1000);
+  },
+  methods: {
+    async getData() {
+      var thes = this;
+      const response = await axios.get(this.url);
+      let label = response.data.map(function (temp) {
+        return temp.id;
+      });
+      let data = response.data.map(function (temp) {
+        return temp[thes.type];
+      });
+      this.chartdata.datasets[0].data = data;
+      this.chartdata.labels = label;
+      this.renderChart(this.chartdata, this.options);
+    },
   },
 };
 </script>

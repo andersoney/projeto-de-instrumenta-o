@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "debug": "cross-env debug=* nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "debug": "^4.3.3",
+    "express": "^4.17.3",
+    "moment": "^2.29.1",
+    "nodemon": "^2.0.15",
+    "sequelize": "^6.16.2",
+    "sqlite3": "^5.0.2"
+  }
+}
