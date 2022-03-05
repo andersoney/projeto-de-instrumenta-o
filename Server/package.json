@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "debug": "cross-env debug=* nodemon --inspect index.js",
+    "debug": "cross-env nodemon --inspect index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

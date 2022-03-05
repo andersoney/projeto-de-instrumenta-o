@@ -7,9 +7,9 @@
           type="temperature"
         />
       </div>
-      <div class="chart">
+      <!-- <div class="chart">
         <TheWelcome url="http://localhost:8081/pressure" type="pressure" />
-      </div>
+      </div> -->
     </main>
   </div>
 </template>

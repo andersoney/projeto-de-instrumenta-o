@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "vue-project"
+		},
+		{
+			"path": "Server"
+		},
+		{
+			"path": "client-arduino"
 		}
 	],
 	"settings": {}
