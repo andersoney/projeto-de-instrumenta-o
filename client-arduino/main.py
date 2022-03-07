@@ -15,28 +15,36 @@ a = [x for x in range(2, 14)]
 output = [Uno.get_pin(f'd:{x}:o') for x in a]
 estadoBt1Ant = True
 contador = 0
-x0 = 0
-x1 = 0
-y0 = 0
-y1 = 0
-a = 0.6
-b = 0.5
-i = 0
+class Normalizer:
+    def __init__(self) -> None:
+        self.x0 = 0
+        self.x1 = 0
+        self.y0 = 0
+        self.y1 = 0
+        self.a = 0.6
+        self.b = 0.5
+        self.i = 0
+    def processNewData(self,data):
+        self.x1 = self.x0
+        self.x0 = data
+        self.y = 0
+        if(self.i == 0):
+            self.y = 0
+        elif(self.i == 0):
+            self.y = (self.a+self.b)*self.y0
+        else:
+            self.y = (self.a+self.b)*self.y0-self.a*self.b*self.y1+(1-self.a-self.b+self.a*self.b)*self.x1
+        self.y1 = self.y0
+        self.y0 = self.y
+        return self.y;
+        pass;
+    pass;
+
 while True:
     estadoBotao1 = valD7.read()
     if(estadoBotao1 == None):
         continue
-    x1 = x0
-    x0 = estadoBotao1
-    y = 0
-    if(i == 0):
-        y = 0
-    elif(i == 0):
-        y = (a+b)*y0
-    else:
-        y = (a+b)*y0-a*b*y1+(1-a-b+a*b)*x1
-    y1 = y0
-    y0 = y
+    
     print(f"Y:{y:.4f}\tX:{x0:.4f}")
     # for out in output:
     #     out.write(1)

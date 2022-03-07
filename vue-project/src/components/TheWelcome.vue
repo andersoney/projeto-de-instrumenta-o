@@ -6,36 +6,29 @@ export default {
   name: "LineChart",
   extends: Line,
   data: () => ({
+    backgroundColor: "rgba(209, 230, 245, 0)",
+    borderColors: [
+      "rgba(56, 163, 236, 1)",
+      "rgba(255, 0, 0, 1)",
+      "rgba(0, 255, 0, 1)",
+    ],
     chartdata: {
-      labels: ["1", "2", "3", "4", "5", "6", "7"],
-      datasets: [
-        {
-          label: "Data One",
-          backgroundColor: "rgba(209, 230, 245, 0.01)",
-          borderColor: "rgba(56, 163, 236, 1)",
-          data: [40, 39, 10, 40],
-        },
-        {
-          label: "Data One",
-          backgroundColor: "rgba(209, 230, 245, 0.01)",
-          borderColor: "rgba(255, 0, 0, 1)",
-          data: [40, 39, 10, 40],
-        },
-      ],
+      labels: [],
+      datasets: [],
     },
     options: {
       scales: {
-        yAxes: [
-          {
-            gridLines: {
-              display: true,
-            },
-            ticks: {
-              min: 0,
-              max: 1,
-            },
-          },
-        ],
+        // yAxes: [
+        //   {
+        //     gridLines: {
+        //       display: true,
+        //     },
+        //     ticks: {
+        //       min: 0,
+        //       max: 1,
+        //     },
+        //   },
+        // ],
       },
       responsive: true,
       maintainAspectRatio: false,
@@ -46,31 +39,50 @@ export default {
     number: 0,
   }),
   mounted() {
+    this.axiosInstance = axios.create({
+      baseURL: "http://localhost:8081/" + this.url,
+      timeout: 1000,
+    });
+    console.log(this.url);
     this.getData();
     setInterval(() => {
       this.getData();
-    }, 1000);
-    this.url1 = "http://localhost:8081/temperature";
-    this.url2 = "http://localhost:8081/pressure";
+    }, 300);
   },
   methods: {
     async getData() {
-      var thes = this;
-      const response1 = await axios.get(this.url1);
-      const response2 = await axios.get(this.url2);
-      let label = response1.data.map(function (temp) {
-        return temp.id;
-      });
-      let data1 = response1.data.map(function (temp) {
-        return temp["temperature"];
-      });
-      let data2 = response2.data.map(function (temp) {
-        return temp["pressure"];
-      });
-      this.chartdata.datasets[0].data = data1;
-      this.chartdata.datasets[1].data = data2;
-      this.chartdata.labels = label;
+      let datasets = [];
+      let types = await this.getTypes();
+      let dataLabel;
+      await Promise.all(
+        types.map(async (element, index) => {
+          let data = await this.getDataByType(element.type);
+          data = data.map((element) => {
+            return element.value;
+          });
+          dataLabel = [...Array(data.length).keys()];
+          datasets.push({
+            label: this.upercaseFistletter(this.url) + " " + element.type,
+            backgroundColor: this.backgroundColor,
+            borderColor: this.borderColors[index],
+            data: data,
+          });
+        })
+      );
+      this.chartdata.datasets = datasets;
+      this.chartdata.labels = dataLabel;
       this.renderChart(this.chartdata, this.options);
+    },
+    async getTypes() {
+      const response = await this.axiosInstance.get("/types");
+      return response.data;
+    },
+    async getDataByType(type) {
+      const response = await this.axiosInstance.get("/bytype/" + type);
+      return response.data;
+    },
+    upercaseFistletter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
     },
   },
 };

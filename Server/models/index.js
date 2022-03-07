@@ -5,8 +5,8 @@ const sequelize = new Sequelize({
   logging: false
 })
 
-require("./temperature")(sequelize);
-require("./pressure")(sequelize);
+const Temperature = require("./temperature")(sequelize);
+const Pressure = require("./pressure")(sequelize);
 (async () => {
   await sequelize.sync({ force: false });
 })();

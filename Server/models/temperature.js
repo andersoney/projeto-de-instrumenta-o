@@ -10,8 +10,12 @@ module.exports = (sequelize) => {
             allowNull: false,
             primaryKey: true
         },
-        temperature: {
+        value: {
             type: Sequelize.DOUBLE,
+            allowNull: false
+        },
+        type:{
+            type: Sequelize.STRING,
             allowNull: false
         },
         createdAt: {
@@ -30,10 +34,8 @@ module.exports = (sequelize) => {
     }, {
         hooks: {
             beforeCreate: (user, options) => {
-                console.log(123);
             },
             afterCreate: (user, options) => {
-                console.log(123);
             }
         },
         sequelize

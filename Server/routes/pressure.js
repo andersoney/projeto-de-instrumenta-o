@@ -11,6 +11,22 @@ router.get('/', async function (req, res, next) {
     res.status(400).send(e);
   }
 });
+router.get('/types', async function (req, res, next) {
+  try {
+    const pressures = await Pressure.findAll({ attributes: ['type'], limit: 100, order: [['id', 'DESC']], group: 'type' })
+    res.json(pressures.reverse());
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
+router.get('/bytype/:type', async function (req, res, next) {
+  try {
+    const pressures = await Pressure.findAll({ limit: 100, order: [['id', 'DESC']], where: { type: req.params.type } })
+    res.json(pressures.reverse());
+  } catch (e) {
+    res.status(400).send(e);
+  }
+});
 router.get('/:id', async function (req, res, next) {
   try {
     const jane = await Pressure.findOne({ where: { id: req.params.id } })
@@ -22,11 +38,10 @@ router.get('/:id', async function (req, res, next) {
 
 router.post('/', async function (req, res, next) {
   try {
-    let temp = req.body;
-    console.log(temp)
-    const jane = Pressure.build(temp);
+    let pressure = req.body;
+    console.log('Salvando Pressão!: ' + JSON.stringify(pressure));
+    const jane = Pressure.build(pressure);
     await jane.save();
-    console.log('Jane was saved to the database!');
     res.json(jane);
   } catch (e) {
     res.status(400).send(e);

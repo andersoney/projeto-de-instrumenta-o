@@ -3,13 +3,13 @@
     <main>
       <div class="chart">
         <TheWelcome
-          url="http://localhost:8081/temperature"
+          url="temperature"
           type="temperature"
         />
       </div>
-      <!-- <div class="chart">
-        <TheWelcome url="http://localhost:8081/pressure" type="pressure" />
-      </div> -->
+      <div class="chart">
+        <TheWelcome url="pressure" type="pressure" />
+      </div>
     </main>
   </div>
 </template>
