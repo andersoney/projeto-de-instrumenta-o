@@ -24,7 +24,6 @@ router.get('/types', async function (req, res, next) {
 router.get('/max/:max', async function (req, res, next) {
   try {
     const temperatures = await Temperature.findAll({ limit: 3, order: [['id', 'DESC']], where: { [Op.and]: [{ value: { [Op.gte]: req.params.max } }, { type: "Simple" }] }, raw: true })
-    console.log(temperatures);
     res.json(temperatures.reverse());
   } catch (e) {
     res.status(400).send(e);
