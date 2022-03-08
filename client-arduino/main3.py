@@ -19,6 +19,7 @@ def readSerialPort(entrada: str) -> str:
 
 for a in range(10):
     leitura1 = readSerialPort("TP")
+    print(leitura1);
     leitura1=leitura1.split(":")[1]
     temperatura=float(leitura1.split("-")[0]);
     pressao=float(leitura1.split("-")[1]);

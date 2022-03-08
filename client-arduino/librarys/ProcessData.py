@@ -6,8 +6,9 @@ class ProcessData:
 
     def sendData(self, value):
         for a in self.arrayFilter:
-            value = a.processNewData(value)
+            new_value=value
+            new_value = a.processNewData(new_value)
             type = a.getType()
             # print(f"value:{value}\ttype:{type}")
-            self.serverConection.sendToServer(value, type)
+            self.serverConection.sendToServer(new_value, type)
     pass
